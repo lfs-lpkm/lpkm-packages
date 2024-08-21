@@ -1,21 +1,22 @@
 #!/bin/bash
-set -e
+set -e -u
 
 
 source scripts/utils.sh
 
 OUT_DIR="$(pwd)/out"
-mkdir -pv $OUT_DIR
+
 
 command_line() {
     if [ "$1" == "all" ]; then
         echo "Building all...."
+        mkdir -pv $OUT_DIR
 
         for index in packages/*; do
             if [ -d "$index" ]; then
-                for __package in ${index}/*; do
-                echo "${__package}"
-                    pushd ${__package}/latest
+                for package in ${index}/*; do
+                echo "${package}"
+                    pushd ${package}/latest
                         source build.sh
                         start_building
                     popd
